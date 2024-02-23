@@ -3,6 +3,7 @@ import {FaInstagram ,FaLinkedinIn,FaTwitter} from 'react-icons/fa' ;
 const Footer = () => {
   const Year =new Date().getFullYear()  
   return (
+        <footer>
         <div className="bottom-0 left-0 w-full overflow-hidden text-white">
             <svg data-name="Layer 1" viewBox="0 0 1200 120" preserveAspectRatio="none">
                <path d="M649.97 0L550.03 0 599.91 54.12 649.97 0z" className="relative block fill-white"></path>
@@ -73,7 +74,7 @@ const Footer = () => {
 
             </div>
         </div>
-    
+        <footer/>
   );
 };
 
