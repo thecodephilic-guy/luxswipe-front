@@ -9,6 +9,7 @@ Before you begin, ensure that you have the following software installed on your 
 
 - Node.js (version 14 or later)
 - npm (Node Package Manager)
+- Also install all neccesary npm libraries 
 
 ## Getting Started
 
