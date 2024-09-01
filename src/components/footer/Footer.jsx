@@ -1,114 +1,128 @@
-import React from "react";
-import logo from "../../assets/Logo.svg";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import building from "../../assets/buildings-fill.svg";
 import location from "../../assets/Location.svg";
 import mail from "../../assets/Mail.svg";
-import phone from "../../assets/Phone.svg";
 import linkedin from "../../assets/linkedin.svg";
+import Logo from "../../assets/Logo.svg";
 import instagram from "../../assets/instagram.svg";
 import youtube from "../../assets/youtube.svg";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
-function Footer() {
+const Footer = () => {
   const { username } = useParams();
+  const [isVisible, setIsVisible] = useState(true);
+  let lastScrollTop = 0;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        setIsVisible(false); // Hide on scroll down
+      } else {
+        setIsVisible(true); // Show on scroll up
+      }
+      lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <>
-      <div
-        id="footer"
-        className={(`${username ? "hidden" : null} flex flex-col bg-mystic shadow-sm justify-center items-center w-full md:h-auto`)}
-      >
-        
-        <div className="mt-auto flex pt-10">
-          <div id="logo" className="mr-10 md:mr-0">
-            <img className="w-20" src={logo} alt="company logo" />
+    <footer
+      className={`${
+        username ? "hidden" : ""
+      } bg-mystic shadow-cn py-12 font-poppins text-contrast-3`}
+    >
+      <div className="container mx-auto px-10 md:px-10 ">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
+          {/* Left Section */}
+          <div className="w-full md:w-1/2 flex flex-col items-center md:items-start space-y-4 order-2 md:order-1 md:ml-40">
+            <div className="hidden md:block">
+              <h3 className="text-xl font-bold">Contact Us</h3>
+              <div className="flex items-center mt-2">
+                <img className="w-5 h-5 mr-2" src={mail} alt="Email" />
+                <p>hello@luxswipe.in</p>
+              </div>
+              <div className="flex items-center mt-2">
+                <img className="w-5 h-5 mr-2" src={location} alt="Location" />
+                <p>Bareilly, Uttar Pradesh, 243006</p>
+              </div>
+              <div className="flex items-center mt-2">
+                <img className="w-5 h-5 mr-2" src={building} alt="Company" />
+                <p>Swipe Industries</p>
+              </div>
+            </div>
+            <div className="md:hidden">
+              <h3 className="text-xl font-bold mb-2">Contact Us</h3>
+              <p>hello@luxswipe.in</p>
+              <p>Bareilly, Uttar Pradesh, 243006</p>
+            </div>
+            <img className="w-12 md:w-14" src={Logo} alt="Luxswipe Logo" />
+            <h2 className="text-1xl font-bold mt-2 md:mt-4">Luxswipe</h2>
           </div>
 
-          <div id="about" className="mb-10 md:mx-10">
-            <p className="text-xs font-poppins font-medium text-base-2 mb-1">About</p>
+          {/* Right Section - Hidden on Mobile */}
+          <div
+            className={`w-full md:w-1/2 flex flex-col items-center md:items-end space-y-2 order-1 md:order-2 ${
+              isVisible ? "block" : "hidden"
+            } md:block`}
+          >
+            <h3 className="text-xl font-bold mb-2">Follow Us On</h3>
 
-            <div className="flex items-center">
-              <img className="scale-125" src={building} alt="buildings logo" />
-              <p className="font-poppins text-sm text-base-1 ml-2">
-                Swipe Industries
-              </p>
-            </div>
-
-            <div className="flex items-center">
-              <img
-                className="scale-125"
-                src={location}
-                alt="location pin logo"
-              />
-              <p className="font-poppins text-sm text-base-1 ml-2">
-                Pbt By-Pass Road, MJPRU
-                <br />
-                Bareilly, 243006, Uttar Pradesh
-              </p>
-            </div>
-          </div>
-
-          <div id="contacts" className="mb-5 hidden md:block">
-            <p className="text-xs font-poppins font-medium text-base-2 mb-1">Contacts</p>
-
-            {/* <div className="flex items-center">
-              <img className="scale-125" src={contact} alt="contact logo svg" />
-              <p className="font-poppins text-sm text-base-1 ml-2">
-                Contact us
-              </p>
-            </div> */}
-
-            <div className="flex items-center">
-              <img className="scale-125" src={mail} alt="mail logo svg" />
-              <p className="font-poppins text-sm text-base-1 ml-2 my-1">
-                hello@luxswipe.in
-              </p>
-            </div>
-
-            {/* <div className="flex items-center">
-              <img className="scale-125" src={phone} alt="phone logo svg" />
-              <p className="font-poppins py-2 text-sm text-base-1 ml-2">
-                +91 80575 66303
-              </p>
-            </div> */}
-
-            <div className="flex items-center my-2">
-              <Link to="https://www.linkedin.com/company/luxswipe/?viewAsMember=true">
-                {" "}
+            <Link
+              to="https://www.linkedin.com/company/luxswipe/?viewAsMember=true"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <div className="flex items-center">
+                <img className="w-6 h-5 mr-2" src={linkedin} alt="LinkedIn" />
+                LinkedIn
+              </div>
+            </Link>
+            <Link
+              to="https://www.instagram.com/lux_swipe/"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <div className="flex items-center">
                 <img
-                  className="hover:scale-110 scale-125"
-                  src={linkedin}
-                  alt="LinkedIn Logo"
-                />
-              </Link>
-              <Link to="https://www.instagram.com/lux_swipe/">
-                {" "}
-                <img
-                  className="px-3 hover:scale-110 scale-125"
+                  className="w-6 h-5 mr-2 mt-2"
                   src={instagram}
-                  alt="Instagram logo"
+                  alt="Instagram"
                 />
-              </Link>
-              <Link to="https://www.youtube.com/channel/UCpP2x2FLcrkOC4vcQVml-ZA">
-                {" "}
-                <img
-                  className="hover:scale-110 scale-125 w-5"
-                  src={youtube}
-                  alt="YouTube Logo"
-                />
-              </Link>
-            </div>
+                Instagram
+              </div>
+            </Link>
+            <Link
+              to="https://www.youtube.com/channel/UCpP2x2FLcrkOC4vcQVml-ZA"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <div className="flex items-center mt-2">
+                <img className="w-6 h-6 mr-2" src={youtube} alt="YouTube" />
+                YouTube
+              </div>
+            </Link>
+              <div className="flex">
+                <p className="text-xl font-semibold md:text-left mt-8">
+                  Signup now and say
+                  <br />
+                  goodbye to "link in bio"
+                </p>
+              </div>
           </div>
-        </div>
-        <div className="flex mx-auto text-xs font-medium md:text-sm mt-6 mb-6 font-poppins">
-          <span>
-            © 2024 Swipe Industries Private Limited, All Rights Reserved
-          </span>
         </div>
       </div>
-    </>
+
+      {/* Divider */}
+      <div className="w-full h-px my-8 bg-base-1 opacity-50 pl-6"></div>
+
+      {/* Footer Bottom */}
+      <div className="text-center text-sm text-contrast-1">
+        <p>© 2024 Swipe Industries Private Limited. All rights reserved.</p>
+      </div>
+      {/* </div> */}
+    </footer>
   );
-}
+};
 
 export default Footer;
 
@@ -116,9 +130,11 @@ export default Footer;
   /* <div className="container mx-auto flex flex-wrap justify-center my-5">
   {/*  Logo */
 }
-{/* <div className="footer-column mb-4 lg:w-1/4 lg:mb-10">
+{
+  /* <div className="footer-column mb-4 lg:w-1/4 lg:mb-10">
   <img src={logo} alt="Logo" className="lg:w-24 w-16" />
-</div>; */}
+</div>; */
+}
 {
   /* <!-- Navigation Links --> 
   <div className="footer-column mb-4 lg:w-1/4 lg:mb-0 mx-5">
